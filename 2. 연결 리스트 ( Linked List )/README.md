@@ -80,12 +80,12 @@ private:
 ```cpp
 class LinkedList {
 private:
-	StringNode* head;
-	StringNode* tail;
+	Node* head;
+	Node* tail;
 	
 public:
-	StringLinkedList();
-	~StringLinkedList();
+	LinkedList();
+	~LinkedList();
 	
 	bool empty() const;
 	Elem front() const;
