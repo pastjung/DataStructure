@@ -87,11 +87,11 @@ public:
 	LinkedList();
 	~LinkedList();
 	
-	bool empty() const;
-	Elem front() const;
-	void addFront(const String& element);
+	bool empty();
+	string front();
+	void addFront(string element);
 	void removeFront();
-	void addBack(const String& element);
+	void addBack(string element);
 	void removeBack();
 };
 ```
