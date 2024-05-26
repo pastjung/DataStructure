@@ -46,45 +46,46 @@ void CircularLinkedList::addNode(int element) {
 void CircularLinkedList::showList() {
 	if (head == NULL) {
 		cout << -1 << "\n";
-		return;
 	}
-
-	Node* printNode = head;
-	do {
-		cout << printNode->element << ' ';
-		printNode = printNode->nextNode;
-	} while (printNode != head);
-	cout << "\n";
+	else {
+		Node* printNode = head;
+		do {
+			cout << printNode->element << ' ';
+			printNode = printNode->nextNode;
+		} while (printNode != head);
+		cout << "\n";
+	}
 }
 
 void CircularLinkedList::Delete(int index) {
-	Node* deleteNode = head;
-	Node* preDeleteNode = head;
+	Node* deleteNode = head;	// 삭제할 노드
+	Node* preDeleteNode = head;	// 삭제할 노드의 바로 앞 노드
 
 	if (index == 0) {
+		// index == 0 인 경우 x-1 번째 노드를 Tail 로 설정
 		head = head->nextNode;
 		tail->nextNode = head;
-		delete deleteNode;
-		return;
-	}
-
-	// 삭제할 노드와 바로 앞 노드 탐색
-	for (int i = 0; i < index; i++) {
-		preDeleteNode = deleteNode;
-		deleteNode = deleteNode->nextNode;
-	}
-
-	if (deleteNode == head) {
-		head = head->nextNode;
-		tail->nextNode = head;
-	}
-	else if (deleteNode == tail) {
-		preDeleteNode->nextNode = head;
-		tail = preDeleteNode;
 	}
 	else {
-		preDeleteNode->nextNode = deleteNode->nextNode;
+		// 삭제할 노드와 바로 앞 노드 탐색
+		for (int i = 0; i < index; i++) {
+			preDeleteNode = deleteNode;
+			deleteNode = deleteNode->nextNode;
+		}
+
+		if (deleteNode == head) {
+			head = head->nextNode;
+			tail->nextNode = head;
+		}
+		else if (deleteNode == tail) {
+			preDeleteNode->nextNode = head;
+			tail = preDeleteNode;
+		}
+		else {
+			preDeleteNode->nextNode = deleteNode->nextNode;
+		}
 	}
+
 	delete deleteNode;
 }
 

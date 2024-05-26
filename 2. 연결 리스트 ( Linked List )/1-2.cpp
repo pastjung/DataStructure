@@ -28,6 +28,7 @@ public:
 	void addFront(int element);
 	void removeFront();
 	int front();
+	
 	void showList();
 	void addBack(int element);
 };
@@ -47,18 +48,19 @@ void LinkedList::addFront(int element) {
 
 void LinkedList::removeFront() {
 	if (head == NULL) {
+		// 리스트가 비어 있을 때
 		cout << -1 << "\n";
-	}
-	else if (head == tail) {
-		cout << head->element << "\n";
-		head = NULL;
-		tail = NULL;
 	}
 	else {
 		cout << head->element << "\n";
 
-		Node* deleteNode = head;
+		Node* deleteNode = head;	// 삭제될 노드
 		head = head->nextNode;
+
+		if (head == NULL) {
+			tail = NULL;
+		}
+
 		delete deleteNode;
 	}
 }
@@ -85,25 +87,28 @@ bool LinkedList::empty() {
 void LinkedList::showList() {
 	if (head == NULL) {
 		cout << -1 << "\n";
-		return;
 	}
-
-	Node* printNode = head;
-	while (printNode != NULL) {
-		cout << printNode->element << ' ';
-		printNode = printNode->nextNode;
+	else {
+		Node* printNode = head;	// 임시 변수
+		
+		while (printNode != NULL) {
+			cout << printNode->element << ' ';
+			printNode = printNode->nextNode;
+		}
+		cout << "\n";
 	}
-	cout << "\n";
 }
 
 void LinkedList::addBack(int element) {
 	Node* newTail = new Node(element);
 
 	if (tail == NULL) {
+		// 리스트가 비어 있을 때
 		head = newTail;
 		tail = newTail;
 	}
 	else {
+		// 리스트에 원소가 존재할 때
 		tail->nextNode = newTail;
 		tail = newTail;
 	}
