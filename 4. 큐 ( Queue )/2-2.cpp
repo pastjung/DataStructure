@@ -1,86 +1,93 @@
 #include <iostream>
 using namespace std;
 
-class arrayQueue {
+class ArrayQueue {
+private:
+	int* array;		// 동적으로 만들 큐	
+	int capacity;	// 큐의 용량
+	int start;		// front 의 위치
+	int back;		// rear 의 위치
 public:
-	int* array;
-	int capacity;;
-	int start;
-	int back;
-
-	arrayQueue(int capacity) {
+	ArrayQueue(int capacity) {
 		this->capacity = capacity + 1;
 		this->array = new int[capacity];
 		start = 1;
 		back = 0;
 	}
+	void enqueue(int data);
+	int size();
+	bool isEmpty();
 
-	void enqueue(int X) {
-		if (capacity == size() + 1) {
-			cout << "Full" << "\n";
-		}
-		else {
-			if (size() == 0) {
-				array[start] = X;
-				back++;
-			}
-			else {
-				if (capacity > back + 1) {
-					array[++back] = X;
-				}
-				else {
-					back = 0;
-					array[back] = X;
-				}
-			}
-		}
-	}
-
-	int dequeue() {
-		if (size() == 0) {
-			// cout << "Empty" << "\n";
-			return -1;
-		}
-		else {
-			int deleteData = array[start];
-			array[start] = NULL;
-			if (size() == 1) {
-				start = 1;
-				back = 0;
-			}
-			else {
-				start = (start + 1) % capacity;
-			}
-			// cout << deleteData << "\n";
-			return deleteData;
-		}
-	}
-
-	int size() {
-		return (capacity + back - start + 1) % capacity;
-	}
-
-	bool isEmpty() {
-		if (size() == 0)
-			return true;
-		else
-			return false;
-	}
-
-	void front() {
-		if (size() == 0)
-			cout << "Empty" << "\n";
-		else
-			cout << array[start] << "\n";
-	}
-
-	void rear() {
-		if (size() == 0)
-			cout << "Empty" << "\n";
-		else
-			cout << array[back] << "\n";
-	}
+	int dequeue();
+	void front();
+	void rear();
 };
+
+void ArrayQueue::enqueue(int data) {
+	if (capacity == size() + 1) {
+		cout << "Full" << "\n";
+	}
+	else {
+		if (size() == 0) {
+			array[start] = data;
+			back++;
+		}
+		else {
+			if (capacity > back + 1) {
+				array[++back] = data;
+			}
+			else {
+				back = 0;
+				array[back] = data;
+			}
+		}
+	}
+}
+
+int ArrayQueue::size() {
+	return (capacity + back - start + 1) % capacity;
+}
+
+bool ArrayQueue::isEmpty() {
+	if (size() == 0)
+		return true;
+	else
+		return false;
+}
+
+int ArrayQueue::dequeue() {
+	if (size() == 0) {
+		// cout << "Empty" << "\n";
+		return -1;
+	}
+	else {
+		int deleteData = array[start];
+		array[start] = NULL;
+		if (size() == 1) {
+			start = 1;
+			back = 0;
+		}
+		else {
+			start = (start + 1) % capacity;
+		}
+		// cout << deleteData << "\n";
+		return deleteData;
+	}
+}
+
+void ArrayQueue::front() {
+	if (size() == 0)
+		cout << "Empty" << "\n";
+	else
+		cout << array[start] << "\n";
+}
+
+void ArrayQueue::rear() {
+	if (size() == 0)
+		cout << "Empty" << "\n";
+	else
+		cout << array[back] << "\n";
+}
 
 int main() {
 	// Improve the input/output speed of cin, cout
@@ -100,14 +107,14 @@ int main() {
 		int N;
 		cin >> N;
 
-		arrayQueue P1 = arrayQueue(N);
+		ArrayQueue P1 = ArrayQueue(N);
 		for (int i = 0; i < N; i++) {
 			int n;
 			cin >> n;
 			P1.enqueue(n);
 		}
 
-		arrayQueue P2 = arrayQueue(N);
+		ArrayQueue P2 = ArrayQueue(N);
 		for (int i = 0; i < N; i++) {
 			int n;
 			cin >> n;
