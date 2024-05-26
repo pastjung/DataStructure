@@ -1,38 +1,40 @@
 #include <iostream>
 using namespace std;
 
-class arrayStack {
+class ArrayStack {
+private:
+	int* array;		// 배열
+	int capacity;	// 배열의 크기
+	int topIndex;	// top 의 index
 public:
-	int* array;
-	int capacity;
-	int topIndex;
-
-	arrayStack(int capacity) {
+	ArrayStack(int capacity) {
 		this->capacity = capacity;
 		this->array = new int[capacity];
 		topIndex = -1;
 	}
-
-	bool empty() {
-		if (topIndex == -1)
-			return true;
-		else
-			return false;
-	}
-
-	int top() {
-		if (topIndex == -1)
-			return -1;
-		else
-			return array[topIndex];
-	}
-
-	void push(int X) {
-		topIndex++;
-		array[topIndex] = X;
-	}
-
+	bool empty();
+	int top();
+	void push(int X);
 };
+
+bool ArrayStack::empty() {
+	if (topIndex == -1)
+		return true;
+	else
+		return false;
+}
+
+int ArrayStack::top() {
+	if (topIndex == -1)
+		return -1;
+	else
+		return array[topIndex];
+}
+
+void ArrayStack::push(int X) {
+	topIndex++;
+	array[topIndex] = X;
+}
 
 int main() {
 	// Improve the input/output speed of cin, cout
@@ -42,7 +44,7 @@ int main() {
 
 	int M;
 	cin >> M;
-	arrayStack arr = arrayStack(M);
+	ArrayStack arr = ArrayStack(M);
 	while (M--) {
 		string str;
 		cin >> str;
