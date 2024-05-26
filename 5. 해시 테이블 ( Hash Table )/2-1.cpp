@@ -3,91 +3,157 @@ using namespace std;
 
 #define MAX 353333
 
-class Item {
+class Cell {
+private:
+	int key;
+	int value;
+	bool flag;
 public:
-	int key, value;
+	Cell() {
+		key = -1;
+		value = -1;
+		flag = false;
+	}
+	friend class HashTable;
 };
 
-class arr {
+class HashTable {
+private:
+	Cell* cells;
+	int size;
 public:
-	Item* data;
-	bool flag = false;
+	HashTable() {
+		cells = new Cell[MAX];
+		size = 0;
+	}
+	int hashfunc(int index);
+	void insertCell(int key, int value);
+	void searchCell(int key, int value);
+
+	void deleteCell(int key, int value);
+
+	int hashfunc2(int idx);
+	void doublyInsertCell(int key, int value);
+	void doublySearchCell(int key, int value);
 };
 
-arr HashArr[MAX];
-int sz = 0;
-
-int hashfunc(int idx) {
-	return idx % MAX;
+int HashTable::hashfunc(int index) {
+	return index % MAX;
 }
 
-int hashfunc2(int idx) {
-	return (17 - (idx % 17));
-}
+void HashTable::insertCell(int key, int value) {
+	if (size == MAX) return;
 
-void tableInsertDouble(int key, int value) {
-	if (sz == MAX) return;
-
-	Item* newItem = new Item();
-	newItem->key = key;
-	newItem->value = value;
-
-	int j = 0;
-	while (sz != MAX) {
-		int index = hashfunc(value + j * hashfunc2(value));
-
-		if (HashArr[index].flag == false) {
-			HashArr[index].flag = true;
-			HashArr[index].data = newItem;
-			sz++;
+	int index = hashfunc(key);
+	while (size != MAX) {
+		if (cells[index].flag == false) {
+			cells[index].key = key;
+			cells[index].value = value;
+			cells[index].flag = true;
+			size++;
 			break;
 		}
 		else {
-			j++;
+			index = (index + 1) % MAX;
 		}
 	}
 }
 
-void tableSearchDouble(int key, int value) {
+void HashTable::searchCell(int key, int value) {
+	int index = hashfunc(key);
 	int probing = 1;
-	int j = 0;
-
 	do {
-		int index = hashfunc(value + j * hashfunc2(value));
-
-		Item* item = HashArr[index].data;
-		bool flag = HashArr[index].flag;
+		Cell cell = cells[index];
+		bool flag = cells[index].flag;
 
 		if (!flag) {
-			cout << 0 << " " << probing << "\n";
+			cout << 0 << ' ' << probing << "\n";
 			break;
 		}
-		else if (item->key == key) {
-			if (item->value == value) {
-				cout << 1 << " " << probing << "\n";
-				break;
-			}
-			else {
-				j++;
-				probing++;
-			}
+		else if (cell.key == key && cell.value == value) {
+			cout << 1 << ' ' << probing << "\n";
+			break;
 		}
 		else {
-			j++;
+			index = hashfunc(++index);
 			probing++;
 		}
 
 	} while (probing != MAX + 1);
 }
 
-void tableClear() {
-	for (int i = 0; i < MAX; i++) {
-		Item* deleteItem = HashArr[i].data;
-		HashArr[i].data = NULL;
-		HashArr[i].flag = false;
-		delete deleteItem;
+void HashTable::deleteCell(int key, int value) {
+	int index = hashfunc(key);
+	int probing = 1;
+	do {
+		Cell cell = cells[index];
+		bool flag = cells[index].flag;
+
+		if (!flag) {
+			cout << 0 << ' ' << probing << "\n";
+			break;
+		}
+		else if (cell.key == key && cell.value == value) {
+			cout << 1 << ' ' << probing << "\n";
+
+			cells[index].key = -1;
+			cells[index].value = -1;
+			break;
+		}
+		else {
+			index = hashfunc(++index);
+			probing++;
+		}
+
+	} while (probing != MAX + 1);
+}
+
+int HashTable::hashfunc2(int idx) {
+	return (17 - (idx % 17));
+}
+
+void HashTable::doublyInsertCell(int key, int value) {
+	if (size == MAX) return;
+
+	int j = 0;
+	while (size != MAX) {
+		int index = hashfunc(value + j * hashfunc2(value));
+		if (cells[index].flag == false) {
+			cells[index].key = key;
+			cells[index].value = value;
+			cells[index].flag = true;
+			size++;
+			break;
+		}
+		else {
+			j++;
+		}
 	}
-	sz = 0;
+}
+
+void HashTable::doublySearchCell(int key, int value) {
+	int probing = 1;
+	int j = 0;
+	do {
+		int index = hashfunc(value + j * hashfunc2(value));
+
+		Cell cell = cells[index];
+		bool flag = cells[index].flag;
+
+		if (!flag) {
+			cout << 0 << ' ' << probing << "\n";
+			break;
+		}
+		else if (cell.key == key && cell.value == value) {
+			cout << 1 << ' ' << probing << "\n";
+			break;
+		}
+		else {
+			probing++;
+			j++;
+		}
+
+	} while (probing != MAX + 1);
 }
 
 int main() {
@@ -99,12 +165,13 @@ int main() {
 	int T;
 	cin >> T;
 	while (T--) {
+		HashTable table = HashTable();
 		int N;
 		cin >> N;
 		for (int i = 0; i < N; i++) {
 			int X;
 			cin >> X;
-			tableInsertDouble(hashfunc(X), X);
+			table.doublyInsertCell(table.hashfunc(X), X);
 		}
 
 		int M;
@@ -112,10 +179,8 @@ int main() {
 		for (int i = 0; i < M; i++) {
 			int X;
 			cin >> X;
-			tableSearchDouble(hashfunc(X), X);
+			table.doublySearchCell(table.hashfunc(X), X);
 		}
-
-		tableClear();
 	}
 	return 0;
 }
