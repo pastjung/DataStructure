@@ -5,38 +5,56 @@ using namespace std;
 
 #define ARRAY_SIZE 10000
 
-int arr[ARRAY_SIZE] = { 0, };
-
-int at(int i) {
-	return arr[i];
-}
-
-void set(int i, int X) {
-	if (arr[i] != 0) arr[i] = X;
-	else cout << 0 << "\n";
-}
-
-int findLast() {
-	int i = 0;
-	while (arr[i] != 0) {
-		i++;
+class Array {
+private:
+	int size;
+	int* arr;
+public:
+	Array(int size) {
+		this->size = 0;
+		arr = new int[size]();	// 기본적으로 0으로 초기화 되지만, 명시적으로 표기.
 	}
-	return i - 1;
+
+	int at(int index);
+	void set(int index, int data);
+	int findLast();
+	void add(int index, int data);
+};
+
+int Array::at(int index) {
+	return arr[index];
 }
 
-void add(int i, int X) {
-	int last = findLast();
-	if (last == -1) {
-		arr[0] = X;
-	}
-	else if (arr[i] == 0) {
-		arr[last + 1] = X;
+void Array::set(int index, int data) {
+	if (arr[index] != 0) {
+		arr[index] = data;
 	}
 	else {
-		for (int index = last; index >= i; index--) {
-			arr[index + 1] = arr[index];
+		cout << 0 << "\n";
+	}
+}
+
+int Array::findLast() {
+	int index = 0;
+	while (arr[index] != 0) {
+		index++;
+	}
+	return index - 1;
+}
+
+void Array::add(int index, int data) {
+	int last = findLast();
+	if (last == -1) {
+		arr[0] = data;
+	}
+	else if (arr[index] == 0) {
+		arr[last + 1] = data;
+	}
+	else {
+		for (int i = last; i >= index; i--) {
+			arr[i + 1] = arr[i];
 		}
-		arr[i] = X;
+		arr[index] = data;
 	}
 }
 
@@ -52,6 +70,8 @@ int main() {
 	start = clock();	// start timer
 
 	// start code
+	Array arr = Array(ARRAY_SIZE);
+
 	int M;
 	cin >> M;
 	while (M--) {
@@ -60,15 +80,15 @@ int main() {
 		int a, b;
 		if (str == "at") {
 			cin >> a;
-			cout << at(a) << "\n";
+			cout << arr.at(a) << "\n";
 		}
 		else if (str == "add") {
 			cin >> a >> b;
-			add(a, b);
+			arr.add(a, b);
 		}
-		else {
+		else if (str == "set") {
 			cin >> a >> b;
-			set(a, b);
+			arr.set(a, b);
 		}
 	}
 	// end code
