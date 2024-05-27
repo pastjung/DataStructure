@@ -3,29 +3,28 @@
 using namespace std;
 
 class Heap {
-public:
+private:
 	vector<int> data;
 	int heap_size;
-
-	Heap();
-
+public:
+	Heap() {
+		heap_size = 0;
+		data.push_back(-1);
+	}
 	void swap(int index1, int index2);
 	void upHeap(int index);
 	void insert(int e);
 	int size();
 	bool isEmpty();
 	void print();
+
 	void downHeap(int index);
 	int pop();
 	int top();
+
 	int printNum(int index);
 	int orderedPrint(int index);
 };
-
-Heap::Heap() {
-	heap_size = 0;
-	data.push_back(-1);
-}
 
 void Heap::swap(int index1, int index2) {
 	int temp = data[index1];

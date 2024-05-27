@@ -5,38 +5,35 @@
 using namespace std;
 
 class Heap {
-public:
+private:
 	vector<int> data;
 	int heap_size;
 	bool direction;	// true : minHeap, false : maxHeap
-
-	Heap();
-	Heap(bool duration);
-
+public:
+	Heap() {
+		heap_size = 0;
+		data.push_back(-1);
+		direction = true;
+	}
+	Heap(bool duration) {
+		heap_size = 0;
+		data.push_back(-1);
+		this->direction = direction;
+	}
 	void swap(int index1, int index2);
 	void upHeap(int index);
 	void insert(int e);
 	int size();
 	bool isEmpty();
 	void print();
+
 	void downHeap(int index);
 	int pop();
 	int top();
+
 	int printNum(int index);
 	int orderedPrint(int index);
 };
-
-Heap::Heap() {
-	heap_size = 0;
-	data.push_back(-1);
-	direction = true;
-}
-
-Heap::Heap(bool direction) {
-	heap_size = 0;
-	data.push_back(-1);
-	this->direction = direction;
-}
 
 void Heap::swap(int index1, int index2) {
 	int temp = data[index1];
