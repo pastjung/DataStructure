@@ -2,48 +2,33 @@
 using namespace std;
 
 class Node {
-public:
+private:
 	int data;
 	Node* parent;
 	Node* leftChild;
 	Node* rightChild;
-
-	Node(int data);
-	void insertLeftChild(Node* child);
-	void insertRightChild(Node* child);
+public:
+	Node(int data) {
+		this->data = data;
+		this->parent = NULL;
+		this->leftChild = NULL;
+		this->rightChild = NULL;
+	}
+	friend class BST;
 };
 
-Node::Node(int data) {
-	this->data = data;
-	this->parent = NULL;
-	this->leftChild = NULL;
-	this->rightChild = NULL;
-}
-
-void Node::insertLeftChild(Node* child) {
-	child->parent = this;
-	this->leftChild = child;
-}
-
-void Node::insertRightChild(Node* child) {
-	child->parent = this;
-	this->rightChild = child;
-}
-
 class BST {
-public:
+private:
 	Node* root;
-
-	BST();
+public:
+	BST() {
+		root = NULL;
+	}
 	void insertNode(Node* newNode);
 	Node* findNode(int data);
 	int findDepth(Node* node);
 	int calChild(Node* node);
 };
-
-BST::BST() {
-	root = NULL;
-}
 
 Node* BST::findNode(int data) {
 	Node* temp = root;
@@ -72,6 +57,7 @@ void BST::insertNode(Node* newNode) {
 		while (leafNode != NULL) {
 			if (leafNode->data < newNode->data) {
 				if (leafNode->rightChild == NULL) {
+					// 오른쪽 자식에 추가
 					newNode->parent = leafNode;
 					leafNode->rightChild = newNode;
 					break;
@@ -82,6 +68,7 @@ void BST::insertNode(Node* newNode) {
 			}
 			else {
 				if (leafNode->leftChild == NULL) {
+					// 왼쪽 자식에 추가
 					newNode->parent = leafNode;
 					leafNode->leftChild = newNode;
 					break;

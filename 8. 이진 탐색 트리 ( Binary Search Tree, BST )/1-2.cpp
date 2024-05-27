@@ -2,50 +2,37 @@
 using namespace std;
 
 class Node {
-public:
+private:
 	int data;
 	Node* parent;
 	Node* leftChild;
 	Node* rightChild;
-
-	Node(int data);
-	void insertLeftChild(Node* child);
-	void insertRightChild(Node* child);
+public:
+	Node(int data) {
+		this->data = data;
+		this->parent = NULL;
+		this->leftChild = NULL;
+		this->rightChild = NULL;
+	}
+	friend class BST;
 };
 
-Node::Node(int data) {
-	this->data = data;
-	this->parent = NULL;
-	this->leftChild = NULL;
-	this->rightChild = NULL;
-}
-
-void Node::insertLeftChild(Node* child) {
-	child->parent = this;
-	this->leftChild = child;
-}
-
-void Node::insertRightChild(Node* child) {
-	child->parent = this;
-	this->rightChild = child;
-}
-
 class BST {
-public:
+private:
 	Node* root;
 	int height;
-
-	BST();
+public:
+	BST() {
+		root = NULL;
+		height = 0;
+	}
 	void insertNode(Node* newNode);
 	Node* findNode(int data);
 	int findDepth(Node* node);
 	int calChild(Node* node);
-};
 
-BST::BST() {
-	root = NULL;
-	height = 0;
-}
+	void printHeight();
+};
 
 Node* BST::findNode(int data) {
 	Node* temp = root;
@@ -71,16 +58,19 @@ void BST::insertNode(Node* newNode) {
 	}
 	else {
 		Node* leafNode = root;
-		int tempHeight = 0;
+		int newNodeHeight = 0;
 
 		while (leafNode != NULL) {
-			tempHeight++;
+			newNodeHeight++;
 			if (leafNode->data < newNode->data) {
 				if (leafNode->rightChild == NULL) {
+					// 오른쪽 자식에 추가
 					newNode->parent = leafNode;
 					leafNode->rightChild = newNode;
 
-					if (height < tempHeight) height = tempHeight;
+					if (height < newNodeHeight) {
+						height = newNodeHeight;
+					}
 					break;
 				}
 				else {
@@ -89,10 +79,13 @@ void BST::insertNode(Node* newNode) {
 			}
 			else {
 				if (leafNode->leftChild == NULL) {
+					// 왼쪽 자식에 추가
 					newNode->parent = leafNode;
 					leafNode->leftChild = newNode;
 
-					if (height < tempHeight) height = tempHeight;
+					if (height < newNodeHeight) {
+						height = newNodeHeight;
+					}
 					break;
 				}
 				else {
@@ -127,6 +120,9 @@ int BST::calChild(Node* node) {
 		return 0;
 }
 
+void BST::printHeight() {
+	cout << height << "\n";
+}
 
 int main() {
 	// Improve the input/output speed of cin, cout
@@ -148,7 +144,7 @@ int main() {
 			bst.insertNode(newNode);
 		}
 
-		cout << bst.height << "\n";
+		bst.printHeight();
 	}
 	return 0;
 }
