@@ -21,34 +21,38 @@ public:
 		vertex_count = 0;
 		edge_count = 0;
 	}
-
-	void insertVertex(int data) {
-		Vertex* newVertex = new Vertex(data);
-		vertexs.push_back(newVertex);
-		vertex_count++;
-	}
-
-	Vertex* findVertex(int data) {
-		for (Vertex* vertex : vertexs) {
-			if (data == vertex->data) return vertex;
-		}
-		return NULL;
-	}
-
-	void insertEdge(int start, int end) {
-		if (findVertex(start) == NULL || findVertex(end) == NULL || edges[start][end] == 1) {
-			cout << -1 << "\n";
-		}
-		else {
-			edges[start][end] = 1;
-			edges[end][start] = 1;
-			edge_count++;
-		}
-	}
-	void printCount() {
-		cout << vertex_count << ' ' << edge_count << "\n";
-	}
+	void insertVertex(int data);
+	Vertex* findVertex(int data);
+	void insertEdge(int start, int end);
+	void printCount();
 };
+
+void Graph::insertVertex(int data) {
+	Vertex* newVertex = new Vertex(data);
+	vertexs.push_back(newVertex);
+	vertex_count++;
+}
+
+Vertex* Graph::findVertex(int data) {
+	for (Vertex* vertex : vertexs) {
+		if (data == vertex->data) return vertex;
+	}
+	return NULL;
+}
+
+void Graph::insertEdge(int start, int end) {
+	if (findVertex(start) == NULL || findVertex(end) == NULL || edges[start][end] == 1) {
+		cout << -1 << "\n";
+	}
+	else {
+		edges[start][end] = 1;
+		edges[end][start] = 1;
+		edge_count++;
+	}
+}
+void Graph::printCount() {
+	cout << vertex_count << ' ' << edge_count << "\n";
+}
 
 int main() {
 	// Improve the input/output speed of cin, cout
