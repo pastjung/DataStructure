@@ -11,4 +11,4 @@
 8. 이진 탐색 트리 ( Binary Search Tree, BST )
 9. 힙 ( Heap )
 
-![자료구조 종류](https://github.com/pastjung/DataStructure/assets/87860163/ab17c22e-4f30-4e99-8369-5f12c6b00944)
+![자료구조](https://github.com/pastjung/DataStructure/assets/87860163/b9100f1d-5207-4204-a7ba-5d82523b3c3d)
