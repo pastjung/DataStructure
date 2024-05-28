@@ -18,7 +18,6 @@ public:
 
 	int pop();
 	int size();
-
 };
 
 bool ArrayStack::empty() {
